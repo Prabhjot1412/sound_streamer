@@ -6,19 +6,20 @@ const Router = (props) => {
   return(
     <MyRouter>
       <Routes>
-          <Route path="/login"
-            element={
-              <Form 
-                title='Log In'
-                buttonName='Sign in'
-                api_url='login_api'
-                redirect='/'
-                fields={[
-                  { name: 'Username', type: 'text', placeholder: 'Username' },
-                  { name: 'Password', type: 'Password', placeholder: '********' },
-                ]}
-              />
-            } />
+        <Route path="/" element={<></>}/>
+        <Route path="/login"
+          element={
+            <Form 
+              title='Log In'
+              buttonName='Sign in'
+              api_url='login_api'
+              redirect='/'
+              fields={[
+                { name: 'Username', type: 'text', placeholder: 'Username' },
+                { name: 'Password', type: 'Password', placeholder: '********' },
+              ]}
+            />
+          } />
         </Routes>
     </MyRouter>
   )

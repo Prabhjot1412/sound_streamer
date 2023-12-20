@@ -22,7 +22,8 @@ const Form = (props) => {
       switch(props.title) {
         case "Log In":
           const expirationTime = new Date(new Date().getTime() + 60000)
-          Cookies.set("session_data", response_json, {expires: expirationTime})
+
+          Cookies.set("session_token", response_json.user_token)
           break;
         default:
           break;
