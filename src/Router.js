@@ -7,7 +7,7 @@ const Router = (props) => {
   return(
     <MyRouter>
       <Routes>
-        <Route path="/" element={<MainPage />}/>
+        <Route path="/" element={<MainPage user_data={props.user_data}/>}/>
         <Route path="/login"
           element={
             <Form

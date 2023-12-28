@@ -3,9 +3,8 @@ import Home from "../icons/Home";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowDown from "../icons/ArrowDown";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [generalDropdown, setGeneralDropdown] = useState(false)
-  const [activeComponent, setActiveComponent] = useState('')
 
   const handleGeneralDropdown = () => {
     if (!generalDropdown) {
@@ -22,7 +21,7 @@ const Sidebar = () => {
   }
 
   const isActive = (name) => {
-    if (name === activeComponent) {
+    if (name === props.activeComponent) {
       return("text-gray-900")
     } else {
       return("text-gray-500")
@@ -30,11 +29,10 @@ const Sidebar = () => {
   }
 
   const setActive = (name) => {
-    console.log(name)
-    if (activeComponent !== name) {
-      setActiveComponent(name)
+    if (props.activeComponent !== name) {
+      props.setActiveComponent(name)
     } else {
-      setActiveComponent('')
+      props.setActiveComponent('')
     }
   }
 
@@ -55,7 +53,6 @@ const Sidebar = () => {
                     </ul>
                   </button>
                 }
-
             </li>
           </ul>
       </div>

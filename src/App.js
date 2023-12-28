@@ -21,7 +21,7 @@ function App() {
   return (
     <React.Fragment>
       <Navbar user_data={userData}/>
-      <Router />
+      <Router user_data={userData}/>
     </React.Fragment>
   );
 }
