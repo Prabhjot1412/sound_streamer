@@ -44,7 +44,6 @@ const Navbar = (props) => {
               <span className="ml-2"> log In </span> 
             </a>
         }
-
       </div>
     </nav>
   )

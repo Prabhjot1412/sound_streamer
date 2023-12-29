@@ -5,17 +5,28 @@ import { useNavigate } from "react-router-dom";
 
 
 const Form = (props) => {
+  const [reqParams, setReqParams] = useState({})
+  const [errors, setErrors] = useState([])
+  const navigate = useNavigate()
+  const formData = new FormData()
+
   const handleSubmit = async (event) => {
     event.preventDefault()
+    formData.append('image', reqParams["image"])
+    let user_token = Cookies.get('session_token')
+    let url = `${Consts.backend_base}/${props.api_url}?user_token=${user_token}`
+    let form_data = JSON.stringify(reqParams)
+    let headers = {"Content-type": "application/json"}
 
-    let url = `${Consts.backend_base}/${props.api_url}`
+    if(props.file === "true") {
+      headers = {}
+      form_data = formData
+    }
 
     let response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(reqParams)
+      headers: headers,
+      body: form_data
     })
 
     let response_json = await response.json()
@@ -34,9 +45,13 @@ const Form = (props) => {
     }
   }
 
-  const [reqParams, setReqParams] = useState({username: '', password: ''})
-  const [errors, setErrors] = useState([])
-  const navigate = useNavigate()
+  const handleChange = (field) => (event) => {
+    if (field.type !== 'file') {
+      setReqParams({...reqParams, [field.name.toLowerCase()]: event.target.value})
+    } else {
+      setReqParams({...reqParams, [field.name.toLowerCase()]: event.target.files[0]})
+    }
+  }
 
   const goBack = () => {
     // navigate('/')
@@ -62,7 +77,7 @@ const Form = (props) => {
                   id={field.name.toLowerCase()}
                   type={field.type}
                   placeholder={field.placeholder}
-                  onChange={(e) => { setReqParams({...reqParams, [field.name.toLowerCase()]: e.target.value})}}
+                  onChange={ handleChange(field) }
                 />
               </div>
             )
