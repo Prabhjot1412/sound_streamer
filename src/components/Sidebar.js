@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Home from "../icons/Home";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowDown from "../icons/ArrowDown";
+import Photo from "../icons/Photos";
 
 const Sidebar = (props) => {
   const [generalDropdown, setGeneralDropdown] = useState(false)
@@ -49,7 +50,11 @@ const Sidebar = (props) => {
                 { generalDropdown &&
                   <button onClick={() => setActive('photo')}>
                     <ul className={`ml-11 ${isActive('photo')}`}>
-                      <li className="hover:text-gray-900">Photos</li>
+                      <li className="flex hover:text-gray-900">
+                        <Photo w='6' h='6' />
+
+                        <span className="ml-2">Photos</span>
+                      </li>
                     </ul>
                   </button>
                 }

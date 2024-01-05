@@ -53,14 +53,18 @@ const Form = (props) => {
     }
   }
 
-  const goBack = () => {
-    // navigate('/')
+  const formClass = () => {
+    if (props.modal) {
+      return("")
+    } else {
+      return("bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-7/12 ml-20 mt-20")
+    }
   }
 
 
   return(
     <>
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-7/12 ml-20 mt-20" onSubmit={ handleSubmit }>
+      <form className={formClass()} onSubmit={ handleSubmit }>
         <div>
           <h3 className="text-3xl font-bold mb-5"> {props.title} </h3>
         </div>
@@ -95,10 +99,6 @@ const Form = (props) => {
         <div className="flex items-center justify-between">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {props.buttonName}
-          </button>
-
-          <button className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" onClick={ goBack }>
-            Back
           </button>
         </div>
       </form>

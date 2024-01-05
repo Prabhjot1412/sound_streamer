@@ -12,7 +12,9 @@ const Navbar = (props) => {
     let user_data = props.user_data
 
     user_data.then((val) => {
-      setUsername(val.username)
+      if (val.user) {
+        setUsername(val.user.username)
+      }
     })
   })
 
