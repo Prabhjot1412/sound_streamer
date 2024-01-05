@@ -19,8 +19,8 @@ const Carousel = (props) => {
   }
 
   return(
-    <div className="ml-10" style={{height: 400}}>
-      { images[activeImage] &&
+    <div className="ml-10" style={images.length !== 0 ? {height: 400} : {}}>
+      { images.length !== 0 &&
         <div className="flex">
           <div onClick={() => handleChange(-1)} className="grid content-center w-10 mr-3 hover:bg-gray-100">
             <ArrowLeft w='10' h='10'/>

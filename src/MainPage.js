@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import { useState } from "react";
 import ImageForm from "./components/ImageForm";
 import Photos from "./components/Photos";
+import GroupForm from "./components/GroupForm";
 
 const MainPage = (props) => {
   const [activeComponent, setActiveComponent] = useState('')
@@ -23,7 +24,9 @@ const MainPage = (props) => {
       <div className="ml-3 mt-3 w-3/4">
         { ( activeComponent === 'photo' &&
             <Photos groups={groups} />
-          ) || <ImageForm />
+          ) || (activeComponent === 'group' && 
+            <GroupForm />
+          ) ||<ImageForm />
         }
       </div>
     </div>

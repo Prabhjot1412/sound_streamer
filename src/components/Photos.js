@@ -10,7 +10,7 @@ const Photos = (props) => {
   return(
     <>
     { showModal ? (<Modal form={true} element={<GroupForm modal={true} setShowModal={setShowModal} />} setShowModal={setShowModal}/>) : null }
-
+    {console.log(groups)}
       {
         groups.map((group) => {
           return(
@@ -20,8 +20,6 @@ const Photos = (props) => {
           )
         }
       )}
-
-      <button onClick={() => {setShowModal(!showModal)}} className="ml-20 mt-10 bg-transparent hover:bg-green-500 text-green-500 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent active:bg-green-600 focus:ring focus:ring-green-300 rounded-full"> + </button>
     </>
   )
 }

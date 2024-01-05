@@ -7,10 +7,10 @@ const GroupForm = (props) => {
       setShowModal={props.setShowModal}
       modal={props.modal}
       buttonName='Add'
-      api_url='/api/user_images/Wallpapers/create'
+      api_url='/api/group/create'
       redirect='/'
       fields={[
-        { name: 'image', type: 'file', placeholder: 'Add image' },
+        { name: 'Group', type: 'text', placeholder: 'Group Name' },
       ]}
     />
 )
