@@ -7,7 +7,6 @@ const Carousel = (props) => {
   const [activeImage, setActiveImage] = useState(0)
 
   const handleChange = (direction) => {
-    console.log(images.length)
     if ((activeImage +1) === images.length && direction > 0) {
       setActiveImage(0)
     }

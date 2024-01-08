@@ -14,6 +14,10 @@ const MainPage = (props) => {
 
     user_data.then((val) => {
     setGroups(val.groups)
+
+    if(typeof(val) !== 'object') {
+      window.location.href = '/login'
+    }
     })
   })
 

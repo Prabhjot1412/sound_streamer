@@ -10,7 +10,6 @@ const Photos = (props) => {
   return(
     <>
     { showModal ? (<Modal form={true} element={<GroupForm modal={true} setShowModal={setShowModal} />} setShowModal={setShowModal}/>) : null }
-    {console.log(groups)}
       {
         groups.map((group) => {
           return(
