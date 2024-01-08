@@ -4,6 +4,7 @@ import ArrowRight from "../icons/ArrowRight";
 import ArrowDown from "../icons/ArrowDown";
 import Photo from "../icons/Photos";
 import PlusCircle from "../icons/PlusCircle";
+import Tag from "../icons/Tag";
 
 const Sidebar = (props) => {
   const [generalDropdown, setGeneralDropdown] = useState(false)
@@ -79,7 +80,7 @@ const Sidebar = (props) => {
                   <button onClick={() => setActive('group')}>
                     <ul className={`ml-11 ${isActive('group')}`}>
                       <li className="flex hover:text-gray-900">
-                        <Photo w='6' h='6' />
+                        <Tag w='6' h='6' />
 
                         <span className="ml-2">Group</span>
                       </li>
