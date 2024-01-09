@@ -48,7 +48,7 @@ const Navbar = (props) => {
               <span className="ml-2"> log In </span> 
             </a>
 
-            <a href="/Register" className="mr-2 flex bg-transparent hover:bg-green-500 text-green-500 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent active:bg-green-600 focus:ring focus:ring-green-300 rounded" id='nav_link'>
+            <a href="/register" className="mr-2 flex bg-transparent hover:bg-green-500 text-green-500 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent active:bg-green-600 focus:ring focus:ring-green-300 rounded" id='nav_link'>
             <UserPlus w='6' h='6'/>
 
             <span className="ml-2">  Register </span> 

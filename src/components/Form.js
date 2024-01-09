@@ -35,6 +35,7 @@ const Form = (props) => {
     if (response_json.error_messages.length === 0) {
       switch(props.title) {
         case "Log In":
+        case "Register":
           Cookies.set("session_token", response_json.user_token)
           break;
         default:

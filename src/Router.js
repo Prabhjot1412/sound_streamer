@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as MyRouter, Routes, Route } from "react-router-dom";
 import Form from "./components/Form";
 import MainPage from "./MainPage";
+import RegistrationForm from "./components/RegistrationForm";
 
 const Router = (props) => {
   return(
@@ -21,6 +22,7 @@ const Router = (props) => {
               ]}
             />
           } />
+          <Route path="/register" element={<RegistrationForm />} />
         </Routes>
     </MyRouter>
   )
