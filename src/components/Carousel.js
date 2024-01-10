@@ -3,7 +3,7 @@ import ArrowRight from "../icons/ArrowRight"
 import ArrowLeft from "../icons/ArrowLeft"
 
 const Carousel = (props) => {
-  const {images} = props
+  const {images, groupName} = props
   const [activeImage, setActiveImage] = useState(0)
 
   const handleChange = (direction) => {
@@ -25,8 +25,10 @@ const Carousel = (props) => {
             <ArrowLeft w='10' h='10'/>
           </div>
 
-          <img src={images[activeImage]} width="500" height="400" style={{height: 400}}></img>
-          
+          <a href={`/image/${groupName}/${activeImage}`}>
+            <img src={images[activeImage]} width="500" height="400" style={{height: 400}}></img>
+          </a>
+
           <div onClick={() => handleChange(1)} className="grid content-center w-10 ml-3 hover:bg-gray-100">
               <ArrowRight w='10' h='10'/>
           </div>
