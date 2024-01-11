@@ -26,7 +26,7 @@ const Carousel = (props) => {
           </div>
 
           <a href={`/image/${groupName}/${activeImage}`}>
-            <img src={images[activeImage]} width="500" height="400" style={{height: 400}}></img>
+            <img src={images[activeImage]} width="500" height="400" style={{height: 400}} className="border-solid border-2 border-cyan-600 ease-linear transition-all duration-150 hover:border-indigo-600"/>
           </a>
 
           <div onClick={() => handleChange(1)} className="grid content-center w-10 ml-3 hover:bg-gray-100">

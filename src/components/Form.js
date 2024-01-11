@@ -14,7 +14,15 @@ const Form = (props) => {
     event.preventDefault()
     formData.append('image', reqParams["image"])
     let user_token = Cookies.get('session_token')
-    let url = `${Consts.backend_base}/${props.api_url}?user_token=${user_token}`
+    let url_symbol
+
+    if (props.contains_params) {
+      url_symbol = '&'
+    } else {
+      url_symbol = '?'
+    }
+
+    let url = `${Consts.backend_base}/${props.api_url}${url_symbol}user_token=${user_token}`
     let form_data = JSON.stringify(reqParams)
     let headers = {"Content-type": "application/json"}
 

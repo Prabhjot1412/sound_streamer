@@ -30,7 +30,7 @@ const MainPage = (props) => {
             <Photos groups={groups} />
           ) || (activeComponent === 'group' && 
             <GroupForm />
-          ) ||<ImageForm />
+          )
         }
       </div>
     </div>

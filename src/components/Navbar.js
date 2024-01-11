@@ -21,7 +21,7 @@ const Navbar = (props) => {
 
   const handleLogout = () => {
     Cookies.remove('session_token')
-    window.location.reload()
+    window.location.href = '/login'
   }
 
   return(
