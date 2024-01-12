@@ -18,7 +18,7 @@ const Carousel = (props) => {
   }
 
   return(
-    <div className="ml-10" style={images.length !== 0 ? {height: 400} : {}}>
+    <div className="ml-10 overflow-hidden" style={images.length !== 0 ? {height: 400} : {}}>
       { images.length !== 0 &&
         <div className="flex">
           <div onClick={() => handleChange(-1)} className="grid content-center w-10 mr-3 hover:bg-gray-100">
@@ -26,7 +26,7 @@ const Carousel = (props) => {
           </div>
 
           <a href={`/image/${groupName}/${activeImage}`}>
-            <img src={images[activeImage]} width="500" height="400" style={{height: 400}} className="border-solid border-2 border-cyan-600 ease-linear transition-all duration-150 hover:border-indigo-600"/>
+            <img src={images[activeImage]} width="500" height="400" style={{height: 400}} id="carasoul-image" className="border-solid border-2 border-cyan-600 ease-linear transition-all duration-150 hover:border-indigo-600"/>
           </a>
 
           <div onClick={() => handleChange(1)} className="grid content-center w-10 ml-3 hover:bg-gray-100">
