@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams} from "react-router-dom";
 import React from "react";
 import Cookies from "js-cookie";
 import Consts from "../consts.json"
 import Modal from "./Modal";
 import CommentForm from "./CommentForm";
 import Trash from "../icons/Trash";
+import ArrowRight from "../icons/ArrowRight";
+import ArrowLeft from "../icons/ArrowLeft";
 
 const ShowImage = (props) => {
   const {user_data} = props
+  const [userData, setUserData] = useState(false)
   const [image, setImage] = useState([])
   const params = useParams()
   const groupName = params["*"].split("/")[0]
   const imageIndex = params["*"].split("/")[1]
+  const [images, setImages] = useState(false)
   const [imageId, setImageId] = useState(false)
   const [fullImage, setFullImage] = useState(false)
   const [comments, setComments] = useState(false)
@@ -23,11 +27,18 @@ const ShowImage = (props) => {
  
   useEffect( () => {
     user_data.then((val => {
+      setImages(val.groups
+        .find(
+          ({ name }) => name.toLowerCase() === groupName.toLowerCase()
+        ).images
+      )
+
       setImage(val.groups
         .find(
           ({ name }) => name.toLowerCase() === groupName.toLowerCase()
         ).images[parseInt(imageIndex)]
       )
+
       let image_id = val.groups.find(
         ({ name }) => name.toLowerCase() === groupName.toLowerCase()
       ).image_ids[parseInt(imageIndex)]
@@ -81,6 +92,24 @@ const ShowImage = (props) => {
     window.location.href = '/photo'
   }
 
+  const nextImage = () => {
+    let nextImageId = parseInt(imageIndex) + 1
+    if (nextImageId < images.length) {
+      window.location.href = `/image/${groupName}/${nextImageId}`
+    } else {
+      window.location.href = `/image/${groupName}/0`
+    }
+  }
+
+  const previousImage = () => {
+    let nextImageId = parseInt(imageIndex) - 1
+    if (nextImageId >= 0) {
+      window.location.href = `/image/${groupName}/${nextImageId}`
+    } else {
+      window.location.href = `/image/${groupName}/${images.length -1}`
+    }
+  }
+
   return(
     <Routes>
         <Route path="/:groupName/:imageIndex" element={
@@ -101,16 +130,26 @@ const ShowImage = (props) => {
                   </button>
 
                   <div>
-                    <button style={{marginLeft: "30%"}} className={`rounded-md p-1 transition-all duration-500 ${hoverColor}`}
+                    <button style={{marginLeft: "29%"}} className="rounded-md p-1 transition-all duration-500 hover:bg-indigo-100"
+                      onClick={() => { previousImage() }}
+                    >
+                      <ArrowLeft w="6" h="6"/>
+                    </button>
+                    <button className="rounded-md p-1 transition-all duration-500 hover:bg-indigo-100"
+                      onClick={() => { nextImage() }}
+                    >
+                      <ArrowRight w="6"/>
+                    </button>
+                    <button className={`rounded-md p-1 transition-all duration-500 ${hoverColor}`}
                       onMouseEnter={() => {setHoverColor('hover:bg-red-100 hover:border-red-300'); setCarouselBorderColor('border-red-300')}}
                       onMouseLeave={() => {setHoverColor('hover:bg-indigo-100 hover:border-indigo-300'); setCarouselBorderColor('border-cyan-600')}}
                       onClick={() => setShowDestroyModal(true)}
                     >
                       <Trash w="6" h="6"/>
                     </button>
+
                   </div>
                 </div>
-
                 <button onClick={() => {setShowModal(true)}} className="transition-all duration-500 mb-10 ml-10 text-4xl hover:text-5xl font-bold dark:text-white">Notes</button>
                 {comments ? comments.map((comment_details) => {
                   return(<div key={comment_details.id} style={{justifyContent: "space-between"}} className={`flex transition-all duration-500 box-border w-3/4 rounded-md ml-5 mb-5 p-4 border-4 border-teal-300 bg-teal-100 ${hoverColor}`}>

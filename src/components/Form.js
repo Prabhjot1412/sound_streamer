@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Consts from "../consts.json"
 import Cookies from "js-cookie"
-import { useNavigate } from "react-router-dom";
 
 
 const Form = (props) => {
   const [reqParams, setReqParams] = useState({})
   const [errors, setErrors] = useState([])
-  const navigate = useNavigate()
   const formData = new FormData()
 
   const handleSubmit = async (event) => {
@@ -89,6 +87,7 @@ const Form = (props) => {
                 <input className="shadow appearance-none border rounded w-7/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id={field.name.toLowerCase()}
                   type={field.type}
+                  accept={props.accept || ""}
                   placeholder={field.placeholder}
                   onChange={ handleChange(field) }
                 />
