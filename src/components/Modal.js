@@ -1,4 +1,16 @@
 const Modal = (props) => {
+  const performAction = () => {
+    if (!props.performAction) {
+      return
+    }
+
+    if (props.options) {
+      props.performAction(props.options)
+    } else {
+      props.performAction()
+    }
+  }
+
   return(
     <>
       <div
@@ -38,9 +50,9 @@ const Modal = (props) => {
                 <button
                   className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => props.setShowModal(false)}
+                  onClick={() => {performAction(); props.setShowModal(false)}}
                 >
-                  Save Changes
+                  {props.button_text || "Save Changes"}
                 </button> : null
               }
             </div>
