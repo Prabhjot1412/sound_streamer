@@ -4,9 +4,11 @@ import { useState } from "react";
 import ImageForm from "./components/ImageForm";
 import Photos from "./components/Photos";
 import GroupForm from "./components/GroupForm";
+import { Route, Routes, useParams } from "react-router-dom";
 
 const MainPage = (props) => {
-  const [activeComponent, setActiveComponent] = useState('')
+  const params = useParams()
+  const [activeComponent, setActiveComponent] = useState(params["*"])
   const [groups, setGroups] = useState([])
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const MainPage = (props) => {
       <div className="ml-3 mt-3 w-3/4">
         { ( activeComponent === 'photo' &&
             <Photos groups={groups} />
-          ) || (activeComponent === 'group' && 
+          ) || (activeComponent === 'group' &&
             <GroupForm />
           )
         }

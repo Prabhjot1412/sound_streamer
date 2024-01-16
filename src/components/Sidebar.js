@@ -5,10 +5,15 @@ import ArrowDown from "../icons/ArrowDown";
 import Photo from "../icons/Photos";
 import PlusCircle from "../icons/PlusCircle";
 import Tag from "../icons/Tag";
+import { useParams } from "react-router-dom";
 
 const Sidebar = (props) => {
-  const [generalDropdown, setGeneralDropdown] = useState(false)
-  const [addDropdown, setAddDropdown] = useState(false)
+  const params = useParams()
+  const generalOptions = ['photo']
+  const addOptions = ['group']
+  const [generalDropdown, setGeneralDropdown] = useState(generalOptions.includes(params["*"]))
+  const [addDropdown, setAddDropdown] = useState(addOptions.includes(params["*"]))
+
 
   const handleGeneralDropdown = () => {
     if (!generalDropdown) {

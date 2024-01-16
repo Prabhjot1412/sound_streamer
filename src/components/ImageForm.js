@@ -10,7 +10,7 @@ const ImageForm = (props) => {
         modal={props.modal}
         buttonName='Add'
         api_url={`/api/user_images/${groupName}/create`}
-        redirect='/'
+        redirect='/photo'
         fields={[
           { name: 'image', type: 'file', placeholder: 'Add image' },
         ]}

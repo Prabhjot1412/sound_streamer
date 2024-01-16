@@ -78,7 +78,7 @@ const ShowImage = (props) => {
 
   const removeImage = () => {
     deleteRequest(0, {url: "api/image/comment/image"})
-    window.location.href = '/'
+    window.location.href = '/photo'
   }
 
   return(

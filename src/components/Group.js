@@ -13,6 +13,7 @@ const Group = (props) => {
         <Modal form={true} setShowModal={setShowModal} element={<ImageForm groupName={group.name} modal={true}/>}/> 
         : null
       }
+
       <button onClick={() => {setShowModal(true)}} className="transition-all duration-500 mb-10 ml-5 text-4xl hover:text-5xl font-bold dark:text-white">{group.name}</button>
       <Carousel groupName={group.name} images={group.images} />
     </div>
