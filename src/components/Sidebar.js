@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 const Sidebar = (props) => {
   const params = useParams()
-  const generalOptions = ['photo']
+  const generalOptions = ['photo', 'music']
   const addOptions = ['group']
   const [generalDropdown, setGeneralDropdown] = useState(generalOptions.includes(params["*"]))
   const [addDropdown, setAddDropdown] = useState(addOptions.includes(params["*"]))
@@ -64,15 +64,27 @@ const Sidebar = (props) => {
                   <span className="ml-20" > { dropIcon(generalDropdown) } </span>
                 </button>
                 { generalDropdown &&
+                <div>
                   <button onClick={() => setActive('photo')}>
-                    <ul className={`ml-11 ${isActive('photo')}`}>
-                      <li className="flex hover:text-gray-900">
+                    <div className={`ml-11 ${isActive('photo')}`}>
+                      <div className="flex hover:text-gray-900">
                         <Photo w='6' h='6' />
 
                         <span className="ml-2">Photos</span>
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </button>
+
+                  <button onClick={() => setActive('music')}>
+                    <div className={`ml-11 ${isActive('music')}`}>
+                      <div className="flex hover:text-gray-900">
+                        <Photo w='6' h='6' />
+
+                        <span className="ml-2">Music</span>
+                      </div>
+                    </div>
+                  </button>
+                </div>
                 }
             </li>
             <li>
