@@ -10,6 +10,7 @@ const MusicList = (props) => {
   const [audioDisplay, setAudioDisplay] = useState(0)
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
+  const [autoPlaySongs, setAutoPlaySongs] = useState(true) 
 
   useEffect(() => {
     if (musicData === undefined) {
@@ -32,6 +33,21 @@ const MusicList = (props) => {
     setAudioDisplay(0)
   }, 10000)
 
+  const setNextSong = () => {
+    if (!autoPlaySongs) {
+      return
+    }
+
+    let currentSongIndex = musicData.indexOf(activeSong)
+    let songsCount = musicData.length
+
+    if (currentSongIndex >= songsCount -1) {
+      setActiveSong(musicData[0])
+    } else {
+      setActiveSong(musicData[currentSongIndex +1])
+    }
+  }
+
   return(
     <div>
       <div style={{padding: 30, display: "flex", flexDirection: "column", justifyContent: "space-between", width: "90%", height: 700}} className="ml-10 rounded-lg bg-indigo-100 transition ease-in-out delay-500"
@@ -42,7 +58,9 @@ const MusicList = (props) => {
           <img src={activeSong.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
             onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}} /> : null
         }
-        <audio alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay/>
+        <audio alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay
+          onEnded={() => setNextSong()}
+        />
       </div>
 
       {showMusicModal &&
@@ -64,7 +82,7 @@ const MusicList = (props) => {
       <div style={{padding: 5}}>
         {musicData && musicData.map((music) => {
           return(
-            <div className={`${activeSong === music ? "bg-cyan-200 border-4 border-indigo-200" : "bg-cyan-100"} rounded-lg mb-5 mt-2 flex`} style={{justifyContent: "space-between"}}>
+            <div key={music.url} className={`${activeSong === music ? "bg-cyan-300 border-4 border-indigo-200" : "bg-cyan-100 hover:bg-cyan-200"} rounded-lg mb-5 mt-2 flex`} style={{justifyContent: "space-between"}}>
                 <div className="flex">
                   {music.thumbnail &&
                     <img className="rounded-md mr-5" src={music.thumbnail} style={{height: 50, width: 50}}/>
