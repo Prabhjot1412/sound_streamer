@@ -10,7 +10,15 @@ const Form = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    formData.append('image', reqParams["image"])
+
+    if (props.title === "Add Image") {
+      formData.append('image', reqParams["image"])
+    } else if (props.title === "Add Song") {
+      formData.append('thumbnail', reqParams["thumbnail"])
+      formData.append('song', reqParams["song"])
+      formData.append('name', reqParams["name"])
+    }
+
     let user_token = Cookies.get('session_token')
     let url_symbol
 
@@ -87,7 +95,7 @@ const Form = (props) => {
                 <input className="shadow appearance-none border rounded w-7/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id={field.name.toLowerCase()}
                   type={field.type}
-                  accept={props.accept || ""}
+                  accept={field.accept || ""}
                   placeholder={field.placeholder}
                   onChange={ handleChange(field) }
                 />

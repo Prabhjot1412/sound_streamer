@@ -9,11 +9,10 @@ const ImageForm = (props) => {
         setShowModal={props.setShowModal}
         modal={props.modal}
         buttonName='Add'
-        accept=".jpeg,.JPEG,.png,.PNG,.avif,.AVIF"
         api_url={`/api/user_images/${groupName}/create`}
         redirect='/photo'
         fields={[
-          { name: 'image', type: 'file', placeholder: 'Add image' },
+          { name: 'image', type: 'file', placeholder: 'Add image', accept: ".jpeg,.JPEG,.png,.PNG,.avif,.AVIF" },
         ]}
         file="true"
       />
