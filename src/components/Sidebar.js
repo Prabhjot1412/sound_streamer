@@ -6,6 +6,7 @@ import Photo from "../icons/Photos";
 import PlusCircle from "../icons/PlusCircle";
 import Tag from "../icons/Tag";
 import { useParams } from "react-router-dom";
+import Music from "../icons/Music";
 
 const Sidebar = (props) => {
   const params = useParams()
@@ -78,7 +79,7 @@ const Sidebar = (props) => {
                   <button onClick={() => setActive('music')}>
                     <div className={`ml-11 ${isActive('music')}`}>
                       <div className="flex hover:text-gray-900">
-                        <Photo w='6' h='6' />
+                        <Music w='6' h='6' />
 
                         <span className="ml-2">Music</span>
                       </div>

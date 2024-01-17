@@ -5,17 +5,20 @@ import ImageForm from "./components/ImageForm";
 import Photos from "./components/Photos";
 import GroupForm from "./components/GroupForm";
 import { Route, Routes, useParams } from "react-router-dom";
+import MusicList from "./components/MusicList";
 
 const MainPage = (props) => {
   const params = useParams()
   const [activeComponent, setActiveComponent] = useState(params["*"])
   const [groups, setGroups] = useState([])
+  const [musicData, setMusicData] = useState()
 
   useEffect(() => {
     let user_data = props.user_data
 
     user_data.then((val) => {
     setGroups(val.groups)
+    setMusicData(val.musics)
 
     if(typeof(val) !== 'object') {
       window.location.href = '/login'
@@ -32,6 +35,8 @@ const MainPage = (props) => {
             <Photos groups={groups} />
           ) || (activeComponent === 'group' &&
             <GroupForm />
+          ) || (activeComponent === 'music' &&
+            <MusicList musicData={musicData}/>
           )
         }
       </div>
