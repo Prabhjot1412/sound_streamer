@@ -3,6 +3,9 @@ import Play from "../icons/Play"
 import PlusCircle from "../icons/PlusCircle"
 import Modal from "./Modal"
 import MusicForm from "./MusicForm"
+import Trash from "../icons/Trash"
+import Consts from "../consts.json"
+import Cookies from "js-cookie"
 
 const MusicList = (props) => {
   const {musicData} = props
@@ -10,6 +13,7 @@ const MusicList = (props) => {
   const [audioDisplay, setAudioDisplay] = useState(0)
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
+  const [showDestroyMusicModal, setShowDestroyMusicModal] = useState(false)
   const [autoPlaySongs, setAutoPlaySongs] = useState(true) 
 
   useEffect(() => {
@@ -31,7 +35,7 @@ const MusicList = (props) => {
     }
 
     setAudioDisplay(0)
-  }, 10000)
+  }, 11000)
 
   const setNextSong = () => {
     if (!autoPlaySongs) {
@@ -48,11 +52,35 @@ const MusicList = (props) => {
     }
   }
 
+  const removeMusic = () => {
+    let user_token = Cookies.get('session_token')
+    let url = `${Consts.backend_base}/api/music/destroy?user_token=${user_token}`
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        id: activeSong.id
+      })
+    })
+
+    window.location.href = '/music'
+  }
+
   return(
     <div>
-      <div style={{padding: 30, display: "flex", flexDirection: "column", justifyContent: "space-between", width: "90%", height: 700}} className="ml-10 rounded-lg bg-indigo-100 transition ease-in-out delay-500"
+      { showDestroyMusicModal ? <Modal performAction={removeMusic} setShowModal={setShowDestroyMusicModal} button_text="Remove" element={<span className="text-red-600">Are you sure you want to remove this Song</span>}/> : null }
+      
+      <div style={{padding: 30, display: "flex", flexDirection: "column", justifyContent: "space-between", width: "90%", height: 800}} className="ml-10 rounded-lg bg-indigo-100 transition ease-in-out delay-500"
         onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}}
       >
+      
+      <button className="transition-all duration-200 text-indigo-200 hover:text-red-500" style={{alignSelf: 'flex-end'}}
+        onClick={() => setShowDestroyMusicModal(true)}
+      >
+        <Trash w="6" h="6" />
+      </button>
+
         <p className="text-4xl font-bold mb-10"> {activeSong.name}</p>
         { activeSong.thumbnail ?
           <img src={activeSong.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
@@ -92,11 +120,13 @@ const MusicList = (props) => {
                   </span>
                 </div>
 
-                <button className={`transition-all duration-200 hover:text-white bg-cyan-100 hover:bg-cyan-300`} style={{padding: "10px", paddingTop: 12}}
-                  onClick={() => setActiveSong(music)}
-                >
-                  <Play w="6" h="6" />
-                </button>
+                <div>
+                  <button className={`transition-all duration-200 hover:text-white bg-cyan-100 hover:bg-cyan-300`} style={{padding: "13px", paddingTop: 12}}
+                    onClick={() => setActiveSong(music)}
+                  >
+                    <Play w="6" h="6" />
+                  </button>
+                </div>
             </div>
           )
         })}
