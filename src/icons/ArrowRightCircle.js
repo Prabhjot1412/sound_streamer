@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const ArrowDown = (props) => {
+const ArrowRightCircle = (props) => {
   const [dimensions, setDimensions] = useState('w-6 h-6')
 
   useEffect(() => {
@@ -9,9 +9,9 @@ const ArrowDown = (props) => {
 
   return(
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={dimensions}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
     </svg>
   )
 }
 
-export default ArrowDown
+export default ArrowRightCircle
