@@ -119,13 +119,13 @@ const MusicList = (props) => {
   };
 
   const previousSong = () => {
-    if (playHistory.length === 0) {
+    if (playHistory.length <= 1) {
       return
     }
 
     let previousSong = playHistory[playHistory.length -2]
-    setPlayHistory(playHistory.slice(0, playHistory.length -1))
     setActiveSong(musicData[previousSong])
+    setPlayHistory(playHistory.slice(0, playHistory.length -2))
   }
 
   return(
@@ -157,14 +157,17 @@ const MusicList = (props) => {
           </div>
 
           <p className="text-4xl font-bold mb-10">{activeSong.name}</p>
-        </div>  
+        </div>
+
+        <div className="flex" style={{height: 500, justifyContent: "center"}}>
           { activeSong.thumbnail ?
             <img src={activeSong.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
               onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}} /> : null
           }
+        </div>
 
           <div className="flex" style={{justifyContent: "center"}}>
-            <button className=" rounded-lg transition-all duration-200 hover:bg-indigo-200" style={{opacity: audioDisplay}}
+            <button className={`rounded-lg transition-all duration-200 ${playHistory.length <= 1 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
               onClick={() => {previousSong(true)}}
               >
               <ArrowLeft w="6" h="6" />
