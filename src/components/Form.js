@@ -13,7 +13,7 @@ const Form = (props) => {
 
     if (props.title === "Add Image") {
       formData.append('image', reqParams["image"])
-    } else if (props.title === "Add Song") {
+    } else if (["Add Song", "Edit Song"].includes(props.title)) {
       formData.append('thumbnail', reqParams["thumbnail"])
       formData.append('song', reqParams["song"])
       formData.append('name', reqParams["name"])

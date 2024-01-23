@@ -1,15 +1,17 @@
 import Form from "./Form"
 
 const MusicForm = (props) => {
-  const {groupName} = props
-
+  const {edit, musicId, setShowModal, modal} = props
+  const title = edit ? 'Edit' : 'Add'
+  
   return(
       <Form
-        title='Add Song'
-        setShowModal={props.setShowModal}
-        modal={props.modal}
-        buttonName='Add'
-        api_url="/api/music"
+        title={`${title} Song`}
+        setShowModal={setShowModal}
+        modal={modal}
+        buttonName={title}
+        contains_params={edit}
+        api_url={edit ? `/api/music/update?music_id=${musicId}` : "/api/music/"}
         redirect="/music"
         fields={[
           { name: 'name', type: 'text', placeholder: 'Name' },

@@ -10,6 +10,7 @@ import ArrowRightCircle from "../icons/ArrowRightCircle"
 import ArrowUpDown from "../icons/ArrowUpDown"
 import ArrowLeft from "../icons/ArrowLeft"
 import ArrowRight from "../icons/ArrowRight"
+import Pencil from "../icons/Pencil"
 
 const MusicList = (props) => {
   const {musicData} = props
@@ -18,21 +19,13 @@ const MusicList = (props) => {
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
   const [showDestroyMusicModal, setShowDestroyMusicModal] = useState(false)
+  const [showEditMusicModal, setShowEditMusicModal] = useState(false)
   const [autoPlaySongs, setAutoPlaySongs] = useState(true)
   const [shuffle, setShuffle] = useState(true)
   const [playHistory, setPlayHistory] = useState([])
   const [shuffleOffset, setShuffleOffset] = useState(0)
 
   useEffect(() => {
-    setInterval(() => {
-      if(showAudio === true) {
-        setShowAudio(false)
-        return
-      }
-
-      setAudioDisplay(0)
-    }, 11000)
-
     if (musicData === undefined) {
       return
     }
@@ -54,8 +47,15 @@ const MusicList = (props) => {
   }, [activeSong])
 
   useEffect(() => {
-    console.log(playHistory)
-  }, [playHistory])
+    setInterval(() => {
+      if(showAudio === true) {
+        setShowAudio(false)
+        return
+      }
+
+      setAudioDisplay(0)
+    }, 8000)
+  }, [])
 
   const nextSong = (next = false) => {
     if (!autoPlaySongs && !next) {
@@ -92,7 +92,7 @@ const MusicList = (props) => {
       let next_song_index = randomNumberInRange(0, playableSongs.length -1)
       setActiveSong(musicData[playableSongs[next_song_index]])
     } else {
-      setShuffleOffset(shuffleOffset + songsCount)
+      setShuffleOffset(playHistory.length -1)
       let next_song_index = randomNumberInRange(0, songsCount -1)
       setActiveSong(musicData[next_song_index])
     }
@@ -137,7 +137,15 @@ const MusicList = (props) => {
 
         <div className="flex" style={{flexDirection: "column"}}>
           <div className="flex" style={{flexDirection: "row-reverse"}}>
-            <button className="transition-all duration-200 text-indigo-200 hover:text-red-500"
+            { showEditMusicModal && <Modal form={true} setShowModal={setShowEditMusicModal} element={<MusicForm edit={true} musicId={activeSong.id} modal={true}/>}/> }
+
+            <button title="Edit" className="transition-all duration-200 text-indigo-200 hover:text-yellow-500"
+              onClick={() => setShowEditMusicModal(true)}>
+
+              <Pencil w="6" h="6" />
+            </button>
+
+            <button title="Delete" className="transition-all duration-200 text-indigo-200 hover:text-red-500"
               onClick={() => setShowDestroyMusicModal(true)}>
 
               <Trash w="6" h="6" />
@@ -167,13 +175,13 @@ const MusicList = (props) => {
         </div>
 
           <div className="flex" style={{justifyContent: "center"}}>
-            <button className={`rounded-lg transition-all duration-200 ${playHistory.length <= 1 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
+            <button title="Previous Song" className={`rounded-lg transition-all duration-200 ${playHistory.length <= 1 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
               onClick={() => {previousSong(true)}}
               >
               <ArrowLeft w="6" h="6" />
             </button>
 
-            <button className=" rounded-lg transition-all duration-200 hover:bg-indigo-200" style={{opacity: audioDisplay}}
+            <button title="Next Song" className=" rounded-lg transition-all duration-200 hover:bg-indigo-200" style={{opacity: audioDisplay}}
               onClick={() => {nextSong(true)}}
             >
               <ArrowRight w="6" h="6" />
@@ -185,9 +193,7 @@ const MusicList = (props) => {
           />
       </div>
 
-      {showMusicModal &&
-        <Modal form={true} setShowModal={setShowMusicModal} element={<MusicForm modal={true}/>}/> 
-      }
+      { showMusicModal && <Modal form={true} setShowModal={setShowMusicModal} element={<MusicForm modal={true}/>}/> }
 
       <div className="mt-5" style={{direction: "rtl"}}>
         <div>
