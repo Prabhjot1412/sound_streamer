@@ -8,6 +8,8 @@ import Consts from "../consts.json"
 import Cookies from "js-cookie"
 import ArrowRightCircle from "../icons/ArrowRightCircle"
 import ArrowUpDown from "../icons/ArrowUpDown"
+import ArrowLeft from "../icons/ArrowLeft"
+import ArrowRight from "../icons/ArrowRight"
 
 const MusicList = (props) => {
   const {musicData} = props
@@ -17,8 +19,9 @@ const MusicList = (props) => {
   const [showMusicModal, setShowMusicModal] = useState(false)
   const [showDestroyMusicModal, setShowDestroyMusicModal] = useState(false)
   const [autoPlaySongs, setAutoPlaySongs] = useState(true)
-  const [shuffle, setShuffle] = useState(false)
+  const [shuffle, setShuffle] = useState(true)
   const [playHistory, setPlayHistory] = useState([])
+  const [shuffleOffset, setShuffleOffset] = useState(0)
 
   useEffect(() => {
     setInterval(() => {
@@ -41,6 +44,19 @@ const MusicList = (props) => {
     setActiveSong(musicData[0])
   }, [musicData])
 
+
+  useEffect(() => {
+    if (musicData === undefined) {
+      return
+    }
+
+    setPlayHistory([...playHistory, musicData.indexOf(activeSong)])
+  }, [activeSong])
+
+  useEffect(() => {
+    console.log(playHistory)
+  }, [playHistory])
+
   const nextSong = (next = false) => {
     if (!autoPlaySongs && !next) {
       return
@@ -50,7 +66,7 @@ const MusicList = (props) => {
     let songsCount = musicData.length
 
     if (shuffle) {
-      handleShuffle(currentSongIndex, songsCount)
+      handleShuffle(songsCount)
       return
     }
 
@@ -61,30 +77,25 @@ const MusicList = (props) => {
     }
   }
 
-  const handleShuffle = (currentSongIndex, songsCount) => { 
-    let alreadyPlayed = playHistory.slice(-songsCount)
+  const handleShuffle = (songsCount) => {
+    let alreadyPlayed = playHistory.slice(shuffleOffset)
+    let songIndex =  musicData.map((_music, index) => index)
     let playableSongs = musicData.map((_music, index) => index)
-    playableSongs.splice(currentSongIndex, 1)
 
-    let elements = []
-    alreadyPlayed = removeRepeats(alreadyPlayed)
-    for (let index = 0; index < alreadyPlayed.length; index++) {
-      let  played = alreadyPlayed[index]
-      if (elements.includes(played)) {
-        break
+    songIndex.forEach((song_index) => {
+      if (alreadyPlayed.includes(song_index)) {
+        playableSongs.splice(playableSongs.indexOf(song_index) , 1)
       }
-      elements.push(played)
+    })
 
-      playableSongs.splice(playableSongs.indexOf(played), 1)
+    if (playableSongs.length > 0) {
+      let next_song_index = randomNumberInRange(0, playableSongs.length -1)
+      setActiveSong(musicData[playableSongs[next_song_index]])
+    } else {
+      setShuffleOffset(shuffleOffset + songsCount)
+      let next_song_index = randomNumberInRange(0, songsCount -1)
+      setActiveSong(musicData[next_song_index])
     }
-
-    if (playableSongs.length === 0) {
-      playableSongs = musicData.map((music, index) => index)
-      playableSongs.splice(currentSongIndex, 1)
-    }
-
-    let activeSongIndex = randomNumberInRange(0, playableSongs.length -1)
-    setActiveSong(musicData[playableSongs[activeSongIndex]])
   }
 
   const removeMusic = () => {
@@ -107,15 +118,14 @@ const MusicList = (props) => {
         * (max - min + 1)) + min;
   };
 
-  const removeRepeats = (alreadyPlayed) => {
-    alreadyPlayed.forEach((num) => {
-      let a = alreadyPlayed.slice(alreadyPlayed.indexOf(num), alreadyPlayed.lastIndexOf(num)).length
-      if (a > 0) {
-        alreadyPlayed.splice(0, a + alreadyPlayed.indexOf(num))
-      }
-    })
+  const previousSong = () => {
+    if (playHistory.length === 0) {
+      return
+    }
 
-    return alreadyPlayed
+    let previousSong = playHistory[playHistory.length -2]
+    setPlayHistory(playHistory.slice(0, playHistory.length -1))
+    setActiveSong(musicData[previousSong])
   }
 
   return(
@@ -152,8 +162,23 @@ const MusicList = (props) => {
             <img src={activeSong.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
               onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}} /> : null
           }
+
+          <div className="flex" style={{justifyContent: "center"}}>
+            <button className=" rounded-lg transition-all duration-200 hover:bg-indigo-200" style={{opacity: audioDisplay}}
+              onClick={() => {previousSong(true)}}
+              >
+              <ArrowLeft w="6" h="6" />
+            </button>
+
+            <button className=" rounded-lg transition-all duration-200 hover:bg-indigo-200" style={{opacity: audioDisplay}}
+              onClick={() => {nextSong(true)}}
+            >
+              <ArrowRight w="6" h="6" />
+            </button>
+          </div>
+
           <audio alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay
-            onEnded={() => {setPlayHistory([...playHistory, musicData.indexOf(activeSong)]) ;nextSong()}}
+            onEnded={() => {nextSong()}}
           />
       </div>
 
@@ -188,7 +213,7 @@ const MusicList = (props) => {
 
                 <div>
                   <button className={`transition-all duration-200 hover:text-white bg-cyan-100 hover:bg-cyan-300`} style={{padding: "13px", paddingTop: 12}}
-                    onClick={() => {setActiveSong(music); setPlayHistory([...playHistory, index])}}
+                    onClick={() => {setActiveSong(music)}}
                   >
                     <Play w="6" h="6" />
                   </button>
