@@ -37,7 +37,6 @@ const MusicList = (props) => {
       return
     }
 
-    console.log(musicData)
     setActiveSong(musicData[0])
   }, [musicData])
 
