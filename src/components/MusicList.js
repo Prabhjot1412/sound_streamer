@@ -13,8 +13,11 @@ import ArrowRight from "../icons/ArrowRight"
 import Pencil from "../icons/Pencil"
 
 const MusicList = (props) => {
-  const {musicData} = props
+  const {musicData, playlists} = props
+
+  const [songsList, setSongsList] = useState([])
   const [activeSong, setActiveSong] = useState(false)
+  const [activePlaylist, setActivePlaylist] = useState('all')
   const [audioDisplay, setAudioDisplay] = useState(0)
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
@@ -34,14 +37,17 @@ const MusicList = (props) => {
       return
     }
 
+    console.log(musicData)
     setActiveSong(musicData[0])
   }, [musicData])
-
 
   useEffect(() => {
     if (musicData === undefined) {
       return
     }
+
+    let audioPlayer = document.getElementById('audio-player')
+    audioPlayer.volume = 0
 
     setPlayHistory([...playHistory, musicData.indexOf(activeSong)])
   }, [activeSong])
@@ -84,7 +90,7 @@ const MusicList = (props) => {
 
     songIndex.forEach((song_index) => {
       if (alreadyPlayed.includes(song_index)) {
-        playableSongs.splice(playableSongs.indexOf(song_index) , 1)
+        playableSongs.splice(playableSongs.indexOf(song_index), 1)
       }
     })
 
@@ -177,7 +183,7 @@ const MusicList = (props) => {
           <div className="flex" style={{justifyContent: "center"}}>
             <button title="Previous Song" className={`rounded-lg transition-all duration-200 ${playHistory.length <= 1 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
               onClick={() => {previousSong(true)}}
-              >
+            >
               <ArrowLeft w="6" h="6" />
             </button>
 
@@ -188,14 +194,18 @@ const MusicList = (props) => {
             </button>
           </div>
 
-          <audio alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay
+          <audio id="audio-player" alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay
             onEnded={() => {nextSong()}}
           />
       </div>
 
       { showMusicModal && <Modal form={true} setShowModal={setShowMusicModal} element={<MusicForm modal={true}/>}/> }
 
-      <div className="mt-5" style={{direction: "rtl"}}>
+      <div className="mt-5 flex" style={{justifyContent: "space-between"}}>
+        <div>
+          <span className="ml-3"> {activePlaylist.toUpperCase()} </span>
+        </div>
+
         <div>
           <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
             onClick={() => setShowMusicModal(true)}
@@ -215,6 +225,7 @@ const MusicList = (props) => {
                   {music.thumbnail &&
                     <img className="rounded-md mr-5" src={music.thumbnail} style={{height: 50, width: 50}}/>
                   }
+
                   <span className="mt-2 ml-2" style={{padding: "5px"}}>
                     {music.name}
                   </span>

@@ -5,7 +5,7 @@ const ImageForm = (props) => {
 
   return(
       <Form
-        title='Add image'
+        title='Add Image'
         setShowModal={props.setShowModal}
         modal={props.modal}
         buttonName='Add'

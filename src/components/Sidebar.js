@@ -7,14 +7,14 @@ import PlusCircle from "../icons/PlusCircle";
 import Tag from "../icons/Tag";
 import { useParams } from "react-router-dom";
 import Music from "../icons/Music";
+import {BsCassette} from "react-icons/bs"
 
 const Sidebar = (props) => {
   const params = useParams()
-  const generalOptions = ['photo', 'music']
+  const generalOptions = ['photo', 'music', 'playlists']
   const addOptions = ['group']
   const [generalDropdown, setGeneralDropdown] = useState(generalOptions.includes(params["*"]))
   const [addDropdown, setAddDropdown] = useState(addOptions.includes(params["*"]))
-
 
   const handleGeneralDropdown = () => {
     if (!generalDropdown) {
@@ -34,7 +34,7 @@ const Sidebar = (props) => {
 
   const dropIcon = (isActive) => {
     return(
-        (!isActive && <ArrowRight w='6' h='6'/>) || <ArrowDown w='6' h='6'/>
+      (!isActive && <ArrowRight w='6' h='6'/>) || <ArrowDown w='6' h='6'/>
     )
   }
 
@@ -80,8 +80,16 @@ const Sidebar = (props) => {
                     <div className={`ml-11 ${isActive('music')}`}>
                       <div className="flex hover:text-gray-900">
                         <Music w='6' h='6' />
-
                         <span className="ml-2">Music</span>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button onClick={() => setActive('playlists')}>
+                    <div className={`ml-11 ${isActive('playlists')}`}>
+                      <div className="flex hover:text-gray-900">
+                        <BsCassette size='1.5em' />
+                        <span className="ml-2">Playlists</span>
                       </div>
                     </div>
                   </button>

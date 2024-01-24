@@ -6,12 +6,14 @@ import Photos from "./components/Photos";
 import GroupForm from "./components/GroupForm";
 import { Route, Routes, useParams } from "react-router-dom";
 import MusicList from "./components/MusicList";
+import Playlists from "./components/playlists/Playlists";
 
 const MainPage = (props) => {
   const params = useParams()
   const [activeComponent, setActiveComponent] = useState(params["*"])
   const [groups, setGroups] = useState([])
   const [musicData, setMusicData] = useState()
+  const [playlists, setPlaylists] = useState([])
 
   useEffect(() => {
     let user_data = props.user_data
@@ -19,6 +21,7 @@ const MainPage = (props) => {
     user_data.then((val) => {
     setGroups(val.groups)
     setMusicData(val.musics)
+    setPlaylists(val.playlists)
 
     if(typeof(val) !== 'object') {
       window.location.href = '/login'
@@ -36,7 +39,9 @@ const MainPage = (props) => {
           ) || (activeComponent === 'group' &&
             <GroupForm />
           ) || (activeComponent === 'music' &&
-            <MusicList musicData={musicData}/>
+            <MusicList musicData={musicData} playlists={playlists}/>
+          ) || (activeComponent === 'playlists' &&
+            <Playlists musicData={musicData} playlists={playlists}/>
           )
         }
       </div>
