@@ -11,9 +11,11 @@ import ArrowUpDown from "../icons/ArrowUpDown"
 import ArrowLeft from "../icons/ArrowLeft"
 import ArrowRight from "../icons/ArrowRight"
 import Pencil from "../icons/Pencil"
+import sortByPlaylist from '../helpers/musicData/sortByPlaylist'
 
 const MusicList = (props) => {
   const {musicData, playlists} = props
+  const sortedPlaylists = sortByPlaylist(musicData, playlists)
 
   const [songsList, setSongsList] = useState([])
   const [activeSong, setActiveSong] = useState(false)
@@ -41,14 +43,10 @@ const MusicList = (props) => {
   }, [musicData])
 
   useEffect(() => {
-    if (musicData === undefined) {
-      return
-    }
-
     let audioPlayer = document.getElementById('audio-player')
     audioPlayer.volume = 0
 
-    setPlayHistory([...playHistory, musicData.indexOf(activeSong)])
+    setPlayHistory([...playHistory, songsList.indexOf(activeSong)])
   }, [activeSong])
 
   useEffect(() => {
@@ -62,13 +60,21 @@ const MusicList = (props) => {
     }, 8000)
   }, [])
 
+  useEffect(() => {
+    if (activePlaylist === 'all') {
+      setSongsList(musicData)
+    } else {
+      setSongsList(sortedPlaylists[activePlaylist])
+    }
+  }, [activePlaylist])
+
   const nextSong = (next = false) => {
     if (!autoPlaySongs && !next) {
       return
     }
 
-    let currentSongIndex = musicData.indexOf(activeSong)
-    let songsCount = musicData.length
+    let currentSongIndex = songsList.indexOf(activeSong)
+    let songsCount = songsList.length
 
     if (shuffle) {
       handleShuffle(songsCount)
@@ -76,16 +82,16 @@ const MusicList = (props) => {
     }
 
     if (currentSongIndex >= songsCount -1) {
-      setActiveSong(musicData[0])
+      setActiveSong(songsList[0])
     } else {
-      setActiveSong(musicData[currentSongIndex +1])
+      setActiveSong(songsList[currentSongIndex +1])
     }
   }
 
   const handleShuffle = (songsCount) => {
     let alreadyPlayed = playHistory.slice(shuffleOffset)
-    let songIndex =  musicData.map((_music, index) => index)
-    let playableSongs = musicData.map((_music, index) => index)
+    let songIndex =  songsList.map((_music, index) => index)
+    let playableSongs = songsList.map((_music, index) => index)
 
     songIndex.forEach((song_index) => {
       if (alreadyPlayed.includes(song_index)) {
@@ -95,11 +101,11 @@ const MusicList = (props) => {
 
     if (playableSongs.length > 0) {
       let next_song_index = randomNumberInRange(0, playableSongs.length -1)
-      setActiveSong(musicData[playableSongs[next_song_index]])
+      setActiveSong(songsList[playableSongs[next_song_index]])
     } else {
       setShuffleOffset(playHistory.length -1)
       let next_song_index = randomNumberInRange(0, songsCount -1)
-      setActiveSong(musicData[next_song_index])
+      setActiveSong(songsList[next_song_index])
     }
   }
 
@@ -129,7 +135,7 @@ const MusicList = (props) => {
     }
 
     let previousSong = playHistory[playHistory.length -2]
-    setActiveSong(musicData[previousSong])
+    setActiveSong(songsList[previousSong])
     setPlayHistory(playHistory.slice(0, playHistory.length -2))
   }
 
@@ -217,7 +223,7 @@ const MusicList = (props) => {
       <hr style={{border: ".5px solid"}}/>
 
       <div style={{padding: 5}}>
-        {musicData && musicData.map((music, index) => {
+        {songsList && songsList.map((music) => {
           return(
             <div key={music.url} className={`${activeSong === music ? "bg-cyan-300 border-4 border-indigo-200" : "bg-cyan-100 hover:bg-cyan-200"} rounded-lg mb-5 mt-2 flex`} style={{justifyContent: "space-between"}}>
                 <div className="flex">
