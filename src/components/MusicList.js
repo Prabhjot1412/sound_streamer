@@ -12,14 +12,17 @@ import ArrowLeft from "../icons/ArrowLeft"
 import ArrowRight from "../icons/ArrowRight"
 import Pencil from "../icons/Pencil"
 import sortByPlaylist from '../helpers/musicData/sortByPlaylist'
+import { useParams } from "react-router-dom"
 
 const MusicList = (props) => {
   const {musicData, playlists} = props
   const sortedPlaylists = sortByPlaylist(musicData, playlists)
+  const params = useParams()
+  const playlistParam = params["*"].split('/')[1]
 
+  const [activePlaylist, setActivePlaylist] = useState('all')
   const [songsList, setSongsList] = useState([])
   const [activeSong, setActiveSong] = useState(false)
-  const [activePlaylist, setActivePlaylist] = useState('all')
   const [audioDisplay, setAudioDisplay] = useState(0)
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
@@ -35,6 +38,16 @@ const MusicList = (props) => {
       return
     }
 
+    if (playlists.includes(playlistParam)) {
+      setActivePlaylist(playlistParam)
+    }
+
+    if (activePlaylist === 'all') {
+      setSongsList(musicData)
+    } else {
+      setSongsList(sortedPlaylists[activePlaylist])
+    }
+
     if (activeSong) {
       return
     }
@@ -43,6 +56,10 @@ const MusicList = (props) => {
   }, [musicData])
 
   useEffect(() => {
+    if (songsList === undefined) {
+      return
+    }
+
     let audioPlayer = document.getElementById('audio-player')
     audioPlayer.volume = 0
 
@@ -208,7 +225,7 @@ const MusicList = (props) => {
 
       <div className="mt-5 flex" style={{justifyContent: "space-between"}}>
         <div>
-          <span className="ml-3"> {activePlaylist.toUpperCase()} </span>
+          <span className="ml-3" onClick={() => setActivePlaylist('rock')}> {activePlaylist.toUpperCase()} </span>
         </div>
 
         <div>

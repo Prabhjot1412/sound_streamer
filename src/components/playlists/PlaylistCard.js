@@ -56,7 +56,7 @@ const PlaylistCard = (props) => {
           {musicWithThumbnail[0] &&
             <img alt={musicWithThumbnail[0].name} src={musicWithThumbnail[0].thumbnail}
               style={{height: 200, width: 200}}
-              className="images transition-all duration-200 border border-cyan-200 border-l-0 border-t-0"
+              className="images transition-all duration-200 border border-cyan-100 border-l-0 border-t-0"
               onMouseEnter={(e) => enlargeImage(e)}
               onMouseLeave={(e) => shrinkImage(e)}
             ></img>
@@ -67,7 +67,7 @@ const PlaylistCard = (props) => {
               style={{height: 200, width: 200}}
               onMouseEnter={(e) => enlargeImage(e)}
               onMouseLeave={(e) => shrinkImage(e)}
-              className="images transition-all duration-200 border border-cyan-200 border-r-0 border-t-0"
+              className="images transition-all duration-200 border border-cyan-100 border-r-0 border-t-0"
             ></img>
           }
         </div>
@@ -78,7 +78,7 @@ const PlaylistCard = (props) => {
             style={{height: 200, width: 200}}
             onMouseEnter={(e) => enlargeImage(e)}
             onMouseLeave={(e) => shrinkImage(e)}
-            className="images transition-all duration-200 border border-cyan-200 border-l-0 border-b-0"
+            className="images transition-all duration-200 border border-cyan-100 border-l-0 border-b-0"
           ></img>
         }
 
@@ -87,7 +87,7 @@ const PlaylistCard = (props) => {
             style={{height: 200, width: 200}}
             onMouseEnter={(e) => enlargeImage(e)}
             onMouseLeave={(e) => shrinkImage(e)}
-            className="images transition-all duration-200 border border-cyan-200 border-r-0 border-b-0"
+            className="images transition-all duration-200 border border-cyan-100 border-r-0 border-b-0"
           ></img>
         }
         </div>

@@ -10,7 +10,7 @@ import Playlists from "./components/playlists/Playlists";
 
 const MainPage = (props) => {
   const params = useParams()
-  const [activeComponent, setActiveComponent] = useState(params["*"])
+  const [activeComponent, setActiveComponent] = useState(params["*"].split('/')[0])
   const [groups, setGroups] = useState([])
   const [musicData, setMusicData] = useState()
   const [playlists, setPlaylists] = useState([])
