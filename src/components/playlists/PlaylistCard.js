@@ -49,7 +49,9 @@ const PlaylistCard = (props) => {
   }
 
   return(
-    <button className="hover:text-indigo-400 flex m-5" style={{flexDirection: 'column'}}>
+    <button className="hover:text-indigo-400 flex m-5" style={{flexDirection: 'column'}}
+      onClick={ () => {window.location.href = `/music/${name}`}}
+    >
       <div className="bg-cyan-100 transition-all duration-200 border border-gray-200 shadow-xl hover:shadow-2xl hover:shadow-indigo-200" style={{overflow: 'hidden', height: 400, width: 400}}>
 
         <div className="flex">

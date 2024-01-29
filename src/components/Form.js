@@ -46,17 +46,21 @@ const Form = (props) => {
     let response_json = await response.json()
     setErrors(response_json.error_messages)
 
+    let redirection = props.redirect
+
     if (response_json.error_messages.length === 0) {
       switch(props.title) {
         case "Log In":
         case "Register":
           Cookies.set("session_token", response_json.user_token)
           break;
+        case "New Playlist":
+          redirection = `${redirection}/${reqParams["name"]}`
         default:
           break;
       }
 
-      window.location.href = props.redirect
+      window.location.href = redirection
     }
   }
 

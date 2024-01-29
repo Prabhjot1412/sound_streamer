@@ -27,9 +27,10 @@ const MusicList = (props) => {
   const [showAudio, setShowAudio] = useState(false)
   const [showMusicModal, setShowMusicModal] = useState(false)
   const [showDestroyMusicModal, setShowDestroyMusicModal] = useState(false)
+  const [showDestroyPlaylistModal, setShowDestroyPlaylistModal] = useState(false)
   const [showEditMusicModal, setShowEditMusicModal] = useState(false)
-  const [autoPlaySongs, setAutoPlaySongs] = useState(true)
-  const [shuffle, setShuffle] = useState(true)
+  const [autoPlaySongs, setAutoPlaySongs] = useState(false)
+  const [shuffle, setShuffle] = useState(false)
   const [playHistory, setPlayHistory] = useState([])
   const [shuffleOffset, setShuffleOffset] = useState(0)
 
@@ -156,9 +157,25 @@ const MusicList = (props) => {
     setPlayHistory(playHistory.slice(0, playHistory.length -2))
   }
 
+  const removePlaylist = () => {
+    let user_token = Cookies.get('session_token')
+    let url = `${Consts.backend_base}/api/playlist/destroy?user_token=${user_token}`
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        name: activePlaylist
+      })
+    })
+
+    window.location.href = '/playlist'
+  }
+
   return(
     <div>
-      { showDestroyMusicModal ? <Modal performAction={removeMusic} setShowModal={setShowDestroyMusicModal} button_text="Remove" element={<span className="text-red-600">Are you sure you want to remove this Song</span>}/> : null }
+      { showDestroyMusicModal ? <Modal performAction={removeMusic} setShowModal={setShowDestroyMusicModal} button_text="Remove" element={<span className="text-red-600">Are you sure you want to remove this Song (from everywhere!)</span>}/> : null }
+      { showDestroyPlaylistModal ? <Modal performAction={removePlaylist} setShowModal={setShowDestroyPlaylistModal} button_text="Remove" element={<span className="text-red-600">Are you sure you want to remove this Playlist</span>}/> : null }
 
       <div style={{padding: 30, display: "flex", flexDirection: "column", justifyContent: "space-between", width: "90%", height: 800}} className="ml-10 rounded-lg bg-indigo-100 transition ease-in-out delay-500"
         onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}}>
@@ -225,11 +242,17 @@ const MusicList = (props) => {
 
       <div className="mt-5 flex" style={{justifyContent: "space-between"}}>
         <div>
-          <span className="ml-3" onClick={() => setActivePlaylist('rock')}> {activePlaylist.toUpperCase()} </span>
+          <span className="ml-3"> {activePlaylist.toUpperCase()} </span>
         </div>
 
         <div>
-          <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
+        <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
+            onClick={() => setShowDestroyPlaylistModal(true)}
+          >
+            <Trash w="6" h="6" />
+        </button>
+
+        <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
             onClick={() => setShowMusicModal(true)}
           >
             <PlusCircle w="6" h="6" />
