@@ -8,6 +8,8 @@ import Tag from "../icons/Tag";
 import { useParams } from "react-router-dom";
 import Music from "../icons/Music";
 import {BsCassette} from "react-icons/bs"
+import { BsCalculator } from "react-icons/bs";
+import Consts from "../consts.json"
 
 const Sidebar = (props) => {
   const params = useParams()
@@ -32,12 +34,6 @@ const Sidebar = (props) => {
     setAddDropdown(!addDropdown)
   }
 
-  const dropIcon = (isActive) => {
-    return(
-      (!isActive && <ArrowRight w='6' h='6'/>) || <ArrowDown w='6' h='6'/>
-    )
-  }
-
   const isActive = (name) => {
     if (name === props.activeComponent) {
       return("text-gray-900")
@@ -58,13 +54,13 @@ const Sidebar = (props) => {
     <aside id="default-sidebar" className="mt-0.5 top-0 left-0 z-40 w-64 min-h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
-            <li >
-                <button onClick={handleGeneralDropdown} className={`flex items-center p-2 ${isActive('general')} rounded-lg dark:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
+            <li className="hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <button onClick={handleGeneralDropdown} className={`flex items-center p-2 ${isActive('general')} rounded-lg dark:text-white group`}>
                   <Home w='6' h ='6'/>
                   <span className="ms-3">General</span>
-                  <span className="ml-20" > { dropIcon(generalDropdown) } </span>
+                  <span className="ml-20 transition-all" style={generalDropdown ? {transform: "rotate(90deg)"} : {} } > <ArrowRight w='6' h='6'/> </span>
                 </button>
-                { generalDropdown &&
+              { generalDropdown &&
                 <div>
                   <button onClick={() => setActive('photo')}>
                     <div className={`ml-11 ${isActive('photo')}`}>
@@ -94,13 +90,19 @@ const Sidebar = (props) => {
                     </div>
                   </button>
                 </div>
-                }
+              }
             </li>
-            <li>
-                <button onClick={handleAddDropdown} className={`flex items-center p-2 ${isActive('add')} rounded-lg dark:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 group`}>
+            <li className="hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <button onClick={() => {setActive('calculator')}} className={`flex items-center p-2 ${isActive('calculator')} rounded-lg dark:text-white group`}>
+                <BsCalculator size="1.5em"/>
+                <span className="ms-3">Funds Calculator</span>
+              </button>
+            </li>
+            <li className="hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <button onClick={handleAddDropdown} className={`flex items-center p-2 ${isActive('add')} rounded-lg dark:text-white group`}>
                   <PlusCircle w='6' h ='6'/>
                   <span className="ms-3">Add</span>
-                  <span className="ml-24" > { dropIcon(addDropdown) } </span>
+                  <span className="ml-24 transition-all" style={addDropdown ? {transform: "rotate(90deg)"} : {} } > <ArrowRight w='6' h='6'/> </span>
                 </button>
                 { addDropdown &&
                   <button onClick={() => setActive('group')}>

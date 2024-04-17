@@ -33,6 +33,7 @@ const MusicList = (props) => {
   const [shuffle, setShuffle] = useState(false)
   const [playHistory, setPlayHistory] = useState([])
   const [shuffleOffset, setShuffleOffset] = useState(0)
+  const [PlaylistDropdown, setPlaylistDropDown] = useState(false)
 
   useEffect(() => {
     if (musicData === undefined) {
@@ -145,10 +146,10 @@ const MusicList = (props) => {
   const randomNumberInRange = (min, max) => {
     return Math.floor(Math.random()
         * (max - min + 1)) + min;
-  };
+  }
 
   const previousSong = () => {
-    if (playHistory.length <= 1) {
+    if (playHistory.length <= 2) {
       return
     }
 
@@ -187,7 +188,7 @@ const MusicList = (props) => {
             <button title="Edit" className="transition-all duration-200 text-indigo-200 hover:text-yellow-500"
               onClick={() => setShowEditMusicModal(true)}>
 
-              <Pencil w="6" h="6" />
+              <Pencil w="6" h="6"/>
             </button>
 
             <button title="Delete" className="transition-all duration-200 text-indigo-200 hover:text-red-500"
@@ -220,7 +221,7 @@ const MusicList = (props) => {
         </div>
 
           <div className="flex" style={{justifyContent: "center"}}>
-            <button title="Previous Song" className={`rounded-lg transition-all duration-200 ${playHistory.length <= 1 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
+            <button title="Previous Song" className={`rounded-lg transition-all duration-200 ${playHistory.length <= 2 ? 'text-gray-500' : `hover:bg-indigo-200`}`} style={{opacity: audioDisplay}}
               onClick={() => {previousSong(true)}}
             >
               <ArrowLeft w="6" h="6" />
@@ -241,21 +242,46 @@ const MusicList = (props) => {
       { showMusicModal && <Modal form={true} setShowModal={setShowMusicModal} element={<MusicForm modal={true}/>}/> }
 
       <div className="mt-5 flex" style={{justifyContent: "space-between"}}>
-        <div>
-          <span className="ml-3"> {activePlaylist.toUpperCase()} </span>
+        <div
+          onMouseEnter={() => {setPlaylistDropDown(true)}}
+          onMouseLeave={() => {setPlaylistDropDown(false)}}
+        >
+
+          <button className="transition-all duration-200 hover:bg-indigo-100 pl-3 pr-2 rounded-md flex" style={{width: "2.8em", justifyContent: 'center'}}
+          >
+            <span> {activePlaylist.toUpperCase()} </span>
+          </button>
+          {PlaylistDropdown &&
+          <div className="transition-all duration-200 bg-indigo-100 rounded-lg" style={{display: "flex", flexDirection: 'column',position: 'absolute', top: '910px'}}>
+            <a className="p-2 transition-all duration-200 hover:bg-indigo-200" href={`/music`}>
+                <span style={{MinWidth: '200px', maxWidth: '600px', overflow: 'hidden'}}>
+                  All
+                </span>
+            </a>
+            {playlists.map((playlist) => {
+              return(
+                <a className="p-2 transition-all duration-200 hover:bg-indigo-200" style={{borderTop: '1px solid black'}} key={playlist} href={`/music/${playlist}`}>
+                  <span style={{MinWidth: '200px', maxWidth: '600px', overflow: 'hidden'}}>
+                    {playlist.toUpperCase()}
+                  </span>
+                </a>
+              )
+            })}
+          </div>
+          }
         </div>
 
         <div>
-        <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
-            onClick={() => setShowDestroyPlaylistModal(true)}
-          >
-            <Trash w="6" h="6" />
-        </button>
+          <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
+              onClick={() => setShowDestroyPlaylistModal(true)}
+            >
+              <Trash w="6" h="6" />
+          </button>
 
-        <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
-            onClick={() => setShowMusicModal(true)}
-          >
-            <PlusCircle w="6" h="6" />
+          <button className="transtion-all easee-in-out text-gray-500 hover:text-gray-800"
+              onClick={() => setShowMusicModal(true)}
+            >
+              <PlusCircle w="6" h="6" />
           </button>
         </div>
       </div>

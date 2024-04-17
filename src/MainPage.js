@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import { useState } from "react";
-import ImageForm from "./components/ImageForm";
 import Photos from "./components/Photos";
 import GroupForm from "./components/GroupForm";
-import { Route, Routes, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MusicList from "./components/MusicList";
 import Playlists from "./components/playlists/Playlists";
+import Calculator from "./components/Calculator";
 
 const MainPage = (props) => {
   const params = useParams()
@@ -42,6 +42,8 @@ const MainPage = (props) => {
             <MusicList musicData={musicData} playlists={playlists}/>
           ) || (activeComponent === 'playlists' &&
             <Playlists musicData={musicData} playlists={playlists}/>
+          ) || (activeComponent === 'calculator' &&
+            <Calculator />
           )
         }
       </div>
