@@ -8,10 +8,10 @@ import CommentForm from "./CommentForm";
 import Trash from "../icons/Trash";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowLeft from "../icons/ArrowLeft";
+import MsgBanner from "./shared/MsgBanner";
 
 const ShowImage = (props) => {
   const {user_data} = props
-  const [userData, setUserData] = useState(false)
   const [image, setImage] = useState([])
   const params = useParams()
   const groupName = params["*"].split("/")[0]
@@ -152,16 +152,15 @@ const ShowImage = (props) => {
                 </div>
                 <button onClick={() => {setShowModal(true)}} className="transition-all duration-500 mb-10 ml-10 text-4xl hover:text-5xl font-bold dark:text-white">Notes</button>
                 {comments ? comments.map((comment_details) => {
-                  return(<div key={comment_details.id} style={{justifyContent: "space-between"}} className={`flex transition-all duration-500 box-border w-3/4 rounded-md ml-5 mb-5 p-4 border-4 border-teal-300 bg-teal-100 ${hoverColor}`}>
-                    <span>{comment_details.comment}</span>
-
-                    <button
-                      onMouseEnter={() => {setHoverColor('hover:bg-red-100 hover:border-red-300')}}
-                      onMouseLeave={() => {setHoverColor('hover:bg-indigo-100 hover:border-indigo-300')}}
-                      onClick={() => deleteRequest(comment_details.id)}
-                    ><Trash w="6" h="6"/>
-                    </button> 
-                  </div>)
+                  return(
+                    <div key={comment_details.id}>
+                      <MsgBanner
+                        id={comment_details.id}
+                        title={comment_details.comment}
+                        deleteRequest={deleteRequest}
+                      />
+                    </div>
+                  )
                 }) : null }
               </div>
           }

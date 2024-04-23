@@ -1,7 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Consts from "../consts.json"
 import { FaChevronUp } from 'react-icons/fa'
 import "../main.css"
+import "./stylesheets/headings.css"
+import "./stylesheets/my_animations.css"
+import Cookies from "js-cookie"
+import { fundCalendarsFromUserToken } from "./fetchers/fund_calendar"
+import CalendarList from "./calendar/CalendarList"
 
 const Calculator = () => {
   const [showCalendarform, setShowCalendarForm] = useState(false)
@@ -10,10 +15,13 @@ const Calculator = () => {
   const [showCalculatedAmount, setShowCalculatedAmount] = useState(false)
   const [stepper, setStepper] = useState(1)
   const [showMonthsFunds, setShowMonthsFunds] = useState(false)
+  const [fundCalendars, setFundCalendars] = useState(null)
+
+  useEffect(() => {
+    setFundCalendars(fundCalendarsFromUserToken(Cookies.get('session_token')))
+  }, [])
 
   const calculateAmount = () => {
-    console.log(formData)
-
     if (!isFormFilled()) {
       return false
     }
@@ -36,8 +44,19 @@ const Calculator = () => {
     }
 
     setShowCalculatedAmount(true)
-
     return true
+  }
+
+  const calculateTotalAmount = () => {
+    let sum = 0
+
+    Array.from(Array(parseInt(formData['timeInYears']))).map((_, index) => {
+      sum += parseFloat(formData[new Date().getFullYear() + index].reduce((x,y) => {
+        return x + parseFloat(y)
+      }, 0.0))
+    })
+
+    return sum.toFixed(2)
   }
 
   const isFormFilled = () => {
@@ -68,8 +87,6 @@ const Calculator = () => {
         formData[new Date().getFullYear() + i] = monthArray
       }
     })
-
-    console.log(formData)
   }
 
   const handleAmountChangeYearly = (event) => {
@@ -118,6 +135,26 @@ const Calculator = () => {
     document.getElementById('yearlyReturns').value = monthlyReturns * 12
   }
 
+  const submitCalendar = async (event) => {
+    let url = `${Consts.backend_base}/api/calendar?user_token=${Cookies.get('session_token')}`
+    formData['goal'] = calculateTotalAmount()
+
+    let response = await fetch(url, {
+      method: 'post',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(formData)
+    })
+
+    let response_json = await response.json()
+
+    if (response_json["response"] != 'success') {
+      event.target.classList.add('error_pulse')
+      setTimeout(() => {event.target.classList.remove('error_pulse')}, 650)
+    } else {
+      window.location.href = '/calculator'
+    }
+  }
+
   return(
     <div className="p-4">
       <div className="flex flex-wrap justify-between">
@@ -150,7 +187,8 @@ const Calculator = () => {
                   value={formData["timeInYears"]}
                   type="number"
                   placeholder="40"
-                  onChange={(event) => {setFormData({...formData, timeInYears: event.target.value})}}
+                  max="120"
+                  onChange={(event) => {setFormData({...formData, timeInYears: (event.target.value > 120 ? 120 : event.target.value)})}}
                 />
               </div>
 
@@ -271,13 +309,25 @@ const Calculator = () => {
               })}
                 <button
                   className={`${isFormFilled() ? "bg-blue-500 hover:bg-blue-700" : "bg-gray-100"} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                  onClick={() => {setStepper(3)}}
+                  onClick={() => {setStepper(3);}}
                 >
                   Next
                 </button>
             </div>
           }
-        </div> : null
+          {stepper == 3 && 
+            <div className="bg-indigo-200 heading-container-1" style={{marginTop: "3rem", width: "93%", minHeight: "20rem"}}>
+              <h1 className="heading-1">Total Goal : { calculateTotalAmount() }</h1>
+              <h1 className="heading-1">Total duration (in years) : { formData["timeInYears"] }</h1>
+
+              <button className="heading-2 transition-all duration-200 ml-5 bg-indigo-400 border border-gray-300 focus:outline-none hover:bg-indigo-300 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-1.5 py-1.5 me-1 mb-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+               onClick={submitCalendar}
+              >
+                Confirm?
+              </button>
+            </div>
+          }
+        </div> : <CalendarList lists={fundCalendars} />
       }
     </div>
   )
