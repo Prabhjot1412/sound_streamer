@@ -7,6 +7,8 @@ import "./stylesheets/my_animations.css"
 import Cookies from "js-cookie"
 import { fundCalendarsFromUserToken } from "./fetchers/fund_calendar"
 import CalendarList from "./calendar/CalendarList"
+import useParamsHelper from "../helpers/useParamsHelper"
+import ShowCalendar from "./calendar/ShowCalendar"
 
 const Calculator = () => {
   const [showCalendarform, setShowCalendarForm] = useState(false)
@@ -167,7 +169,12 @@ const Calculator = () => {
         </button>
       </div>
       <hr />
-      { showCalendarform ?
+
+      { useParamsHelper(1) ? // if calendar_id is present in params
+        <ShowCalendar calendars={fundCalendars} />
+      : null }
+
+      { !useParamsHelper(1) && showCalendarform ?
         <div>
           <div className="m-5 flex justify-center">
             <button className="mr-4"><hr className={`w-32 h-2 ${stepper >= 1 ? "bg-blue-500 border-0 dark:bg-blue-700" : "bg-gray-200 border-0 dark:bg-gray-700"}`} onClick={() => {setStepper(1)}}/></button>
@@ -327,8 +334,9 @@ const Calculator = () => {
               </button>
             </div>
           }
-        </div> : <CalendarList lists={fundCalendars} />
+        </div> : null
       }
+      { !useParamsHelper(1) && !showCalendarform ? <CalendarList lists={fundCalendars} /> : null }
     </div>
   )
 }

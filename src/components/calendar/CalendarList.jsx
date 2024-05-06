@@ -20,7 +20,7 @@ const CalendarList = (props) => {
       {fundLists.map((list) => {
         return(
           <div key={list.id}>
-            <Calendar list={list} /> {console.log(list)}
+            <Calendar list={list} />
           </div>
         )
       })}

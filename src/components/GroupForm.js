@@ -13,7 +13,7 @@ const GroupForm = (props) => {
         { name: 'Group', type: 'text', placeholder: 'Group Name' },
       ]}
     />
-)
+  )
 }
 
 export default GroupForm
