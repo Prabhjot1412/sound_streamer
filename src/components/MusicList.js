@@ -136,7 +136,7 @@ const MusicList = (props) => {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        id: activeSong.id
+        id: activeSong?.id
       })
     })
 
@@ -183,7 +183,7 @@ const MusicList = (props) => {
 
         <div className="flex" style={{flexDirection: "column"}}>
           <div className="flex" style={{flexDirection: "row-reverse"}}>
-            { showEditMusicModal && <Modal form={true} setShowModal={setShowEditMusicModal} element={<MusicForm edit={true} musicId={activeSong.id} modal={true}/>}/> }
+            { showEditMusicModal && <Modal form={true} setShowModal={setShowEditMusicModal} element={<MusicForm edit={true} musicId={activeSong?.id} modal={true}/>}/> }
 
             <button title="Edit" className="transition-all duration-200 text-indigo-200 hover:text-yellow-500"
               onClick={() => setShowEditMusicModal(true)}>
@@ -210,12 +210,12 @@ const MusicList = (props) => {
             </button>
           </div>
 
-          <p className="text-4xl font-bold mb-10">{activeSong.name}</p>
+          <p className="text-4xl font-bold mb-10">{activeSong?.name}</p>
         </div>
 
         <div className="flex" style={{height: 500, justifyContent: "center"}}>
-          { activeSong.thumbnail ?
-            <img src={activeSong.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
+          { activeSong?.thumbnail ?
+            <img src={activeSong?.thumbnail} alt="thumbnail" className="mb-5 rounded-md" style={{alignSelf: "center", Width: 500, maxHeight: 500}} 
               onMouseOver={() => {setShowAudio(true); setAudioDisplay(1)}} /> : null
           }
         </div>
@@ -234,7 +234,7 @@ const MusicList = (props) => {
             </button>
           </div>
 
-          <audio id="audio-player" alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong.url} controls autoPlay
+          <audio id="audio-player" alt="song" style={{opacity: audioDisplay}} className="w-full transition-all duration-200 ease-in-out " src={activeSong?.url} controls autoPlay
             onEnded={() => {nextSong()}}
           />
       </div>

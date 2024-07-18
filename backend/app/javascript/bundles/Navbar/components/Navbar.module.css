@@ -1,0 +1,43 @@
+.navbar {
+  margin-bottom: 10px;
+  border-bottom: 2px solid black;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+  background-color: rgba(207, 255, 136, 0.5);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  height: fit-content;
+}
+
+.item {
+  height: max-content;
+  border-right: 2px solid black;
+  border-collapse: collapse;
+  padding: 15px;
+  transition: background-color .1s;
+  cursor: pointer;
+}
+
+.holder {
+  padding: 15px;
+  padding-right: unset;
+  padding-left: unset;
+}
+
+.first {
+  border-left: 2px solid black;
+}
+
+.navbar .item:hover {
+  background-color: rgba(191, 255, 96, 0.5);
+}
+
+.navbar .item:active {
+  background-color: rgba(148, 198, 73, 0.5);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

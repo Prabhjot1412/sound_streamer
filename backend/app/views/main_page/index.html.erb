@@ -1,0 +1,5 @@
+<%if current_user.present?%>
+  <%= react_component("GreetingsSignedIn", props: @main_page_index_props, prerender: false) %>
+<%else%>
+  <%= react_component("GreetingsSignedOut", props: @main_page_index_props, prerender: false) %>
+<%end%>

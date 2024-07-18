@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test1</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application" %>
+
+    <%= javascript_pack_tag 'hello-world-bundle' %>
+    <%= stylesheet_pack_tag 'hello-world-bundle' %>
+  </head>
+
+  <body>
+    <%= react_component("Navbar", props: navbar_props, prerender: false)%>
+    <p><%= flash[:message]%></p>
+    <%= yield %>
+  </body>
+</html>

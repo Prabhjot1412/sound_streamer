@@ -1,0 +1,46 @@
+.container {
+  padding: 25px;
+}
+
+.item {
+  margin-bottom: 25px;
+}
+
+.attri {
+  margin-right: 50px;
+}
+
+.submit {
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: transparent;
+  transition: background-color .25s, color .25s;
+  cursor: pointer;
+}
+
+.submit:hover {
+  color: wheat;
+  background-color: black;
+}
+
+.submit:active {
+  background-color: rgb(128, 128, 128);
+}
+
+.login_container {
+  border: 2px solid black;
+  width: 40%;
+  min-height: 500px;
+  overflow: scroll;
+  background-color: rgba(191, 255, 96, 0.195);;
+  margin: auto;
+  text-align: center;
+}
+
+.error_container {
+  text-align: left;
+  margin-left: 30%;
+  color: red;
+}

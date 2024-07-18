@@ -1,0 +1,2 @@
+class ImageDetail < ApplicationRecord
+end

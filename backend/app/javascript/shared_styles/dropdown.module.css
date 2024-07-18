@@ -1,0 +1,29 @@
+.dropdown {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  margin: 10px 42.5px;
+  width: 160px;
+}
+
+.menu_item, .menu_item_last {
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: unset;
+  margin-bottom: unset;
+  border-bottom: unset;
+  background-color: white;
+  transition: background-color .25s, color .25s;
+  cursor: pointer;
+}
+
+.menu_item_last {
+  border-bottom:  1px solid black;
+}
+
+.menu_item_last:hover, .menu_item:hover{
+  background-color: black;
+  color: white;
+}
